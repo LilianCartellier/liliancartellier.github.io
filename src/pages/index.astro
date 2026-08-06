@@ -1,4 +1,31 @@
 ---
-// Root redirect to default language (fr)
-return Astro.redirect('/fr/');
+import { languages } from '../i18n/ui';
 ---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Redirecting...</title>
+		<script define:vars={{ languages }}>
+			const userLangs = navigator.languages || [navigator.language || 'en'];
+			let target = 'en';
+			for (const lang of userLangs) {
+				const code = lang.split('-')[0].toLowerCase();
+				if (code in languages) {
+					target = code;
+					break;
+				}
+			}
+			window.location.replace('/' + target + '/');
+		</script>
+		<noscript>
+			<meta http-equiv="refresh" content="0;url=/en/" />
+		</noscript>
+	</head>
+	<body>
+		<noscript>
+			<p>Please enable JavaScript or visit <a href="/en/">English</a> / <a href="/fr/">Français</a>.</p>
+		</noscript>
+	</body>
+</html>
