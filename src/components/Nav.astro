@@ -2,22 +2,27 @@
 import Icon from './Icon.astro';
 import type { iconPaths } from './IconPaths';
 import ThemeToggle from './ThemeToggle.astro';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 
 /** Main menu items */
 const textLinks: { label: string; href: string }[] = [
-	{ label: 'Home', href: '/' },
-	{ label: 'Work', href: '/work/' },
-	{ label: 'About', href: '/about/' },
+	{ label: t('nav.home'), href: translatePath('/') },
+	{ label: t('nav.work'), href: translatePath('/work/') },
+	{ label: t('nav.about'), href: translatePath('/about/') },
 ];
 
 /** Icon links to social media — edit these with links to your profiles! */
 const iconLinks: { label: string; href: string; icon: keyof typeof iconPaths }[] = [
-	{ label: 'Twitter', href: 'https://twitter.com/me', icon: 'twitter-logo' },
-	{ label: 'Twitch', href: 'https://twitch.tv/me', icon: 'twitch-logo' },
-	{ label: 'GitHub', href: 'https://github.com/me', icon: 'github-logo' },
-	{ label: 'CodePen', href: 'https://codepen.io/me', icon: 'codepen-logo' },
-	{ label: 'dribbble', href: 'https://dribbble.com/me', icon: 'dribbble-logo' },
-	{ label: 'YouTube', href: 'https://www.youtube.com/@me/', icon: 'youtube-logo' },
+	{ label: t('nav.twitter'), href: 'https://twitter.com/me', icon: 'twitter-logo' },
+	{ label: t('nav.twitch'), href: 'https://twitch.tv/me', icon: 'twitch-logo' },
+	{ label: t('nav.github'), href: 'https://github.com/me', icon: 'github-logo' },
+	{ label: t('nav.codepen'), href: 'https://codepen.io/me', icon: 'codepen-logo' },
+	{ label: t('nav.dribbble'), href: 'https://dribbble.com/me', icon: 'dribbble-logo' },
+	{ label: t('nav.youtube'), href: 'https://www.youtube.com/@me/', icon: 'youtube-logo' },
 ];
 
 /** Test if a link is pointing to the current page. */
@@ -31,14 +36,14 @@ const isCurrentPage = (href: string) => {
 
 <nav>
 	<div class="menu-header">
-		<a href="/" class="site-title">
+		<a href={translatePath('/')} class="site-title">
 			<Icon icon="terminal-window" color="var(--accent-regular)" size="1.6em" gradient />
 			Jeanine White
 		</a>
 		<menu-button>
 			<template>
 				<button class="menu-button" aria-expanded="false">
-					<span class="sr-only">Menu</span>
+					<span class="sr-only">{t('nav.menu')}</span>
 					<Icon icon="list" />
 				</button>
 			</template>
@@ -95,8 +100,15 @@ const isCurrentPage = (href: string) => {
 				}
 			</div>
 
-			<div class="theme-toggle">
-				<ThemeToggle />
+			<div class="menu-footer-controls">
+				<div class="lang-switcher">
+					<a href={translatePath('/', 'fr')} class:list={[{ active: lang === 'fr' }]}>FR</a>
+					<span>/</span>
+					<a href={translatePath('/', 'en')} class:list={[{ active: lang === 'en' }]}>EN</a>
+				</div>
+				<div class="theme-toggle">
+					<ThemeToggle />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -153,6 +165,7 @@ const isCurrentPage = (href: string) => {
 		justify-content: space-between;
 		gap: 0.5rem;
 		padding: 1.5rem;
+		align-items: center;
 	}
 
 	.site-title {
@@ -162,6 +175,37 @@ const isCurrentPage = (href: string) => {
 		line-height: 1.1;
 		color: var(--gray-0);
 		text-decoration: none;
+	}
+
+	.menu-footer-controls {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.lang-switcher {
+		display: flex;
+		gap: 0.35rem;
+		align-items: center;
+		font-size: 0.9rem;
+		color: var(--gray-300);
+		background: radial-gradient(var(--gray-900), var(--gray-800) 150%);
+		padding: 0.35rem 0.75rem;
+		border-radius: 999rem;
+		box-shadow: var(--shadow-md);
+		border: 1px solid var(--gray-800);
+	}
+
+	.lang-switcher a {
+		color: var(--gray-400);
+		text-decoration: none;
+		font-weight: 600;
+		transition: color var(--theme-transition);
+	}
+
+	.lang-switcher a:hover,
+	.lang-switcher a.active {
+		color: var(--gray-0);
 	}
 
 	.menu-button {
