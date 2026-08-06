@@ -8,6 +8,9 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
 
+const isWorkPage = Astro.url.pathname.includes('/work/');
+const workSlug = isWorkPage ? Astro.url.pathname.split('/work/')[1] : null;
+
 /** Icon links to social media — edit these with links to your profiles! */
 const iconLinks: { label: string; href: string; icon: keyof typeof iconPaths }[] = [
 	{ label: t('nav.twitter'), href: 'https://twitter.com/me', icon: 'twitter-logo' },
@@ -48,9 +51,9 @@ const iconLinks: { label: string; href: string; icon: keyof typeof iconPaths }[]
 
 		<div class="menu-footer-controls">
 			<div class="lang-switcher">
-				<a href={translatePath('/', 'fr')} class:list={[{ active: lang === 'fr' }]}>FR</a>
+				<a href={workSlug ? `/${'fr'}/work/${workSlug}` : translatePath('/', 'fr')} class:list={[{ active: lang === 'fr' }]}>FR</a>
 				<span>/</span>
-				<a href={translatePath('/', 'en')} class:list={[{ active: lang === 'en' }]}>EN</a>
+				<a href={workSlug ? `/${'en'}/work/${workSlug}` : translatePath('/', 'en')} class:list={[{ active: lang === 'en' }]}>EN</a>
 			</div>
 			<div class="theme-toggle">
 				<ThemeToggle />

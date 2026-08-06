@@ -18,10 +18,13 @@ export async function getStaticPaths() {
 	const paths = [];
 	for (const lang of Object.keys(languages)) {
 		for (const entry of work) {
-			paths.push({
-				params: { lang, slug: entry.id },
-				props: { entry },
-			});
+			// Filter entries by language based on folder structure
+			if (entry.id.startsWith(`${lang}/`)) {
+				paths.push({
+					params: { lang, slug: entry.id.replace(`${lang}/`, '') },
+					props: { entry },
+				});
+			}
 		}
 	}
 	return paths;
