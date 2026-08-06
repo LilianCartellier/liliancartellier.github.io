@@ -9,11 +9,11 @@ export const collections = {
 		schema: z.object({
 			title: z.string(),
 			description: z.string(),
-			publishDate: z.coerce.date(),
 			tags: z.array(z.string()),
 			img: z.string(),
 			img_alt: z.string().optional(),
 			lang: z.enum(['fr', 'en']).default('fr'),
+			order: z.number().optional(),
 		}),
 	}),
 };
