@@ -17,7 +17,7 @@ import { languages } from '../i18n/ui';
 					break;
 				}
 			}
-			window.location.replace('/' + target + '/');
+			window.location.replace('/' + target + '/' + window.location.hash);
 		</script>
 		<noscript>
 			<meta http-equiv="refresh" content="0;url=/en/" />
