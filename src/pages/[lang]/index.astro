@@ -25,8 +25,8 @@ const projects = (await getCollection('work'))
 ---
 
 <BaseLayout title={t('home.hero.title') + ' | ' + t('footer.name')} description={t('home.hero.tagline')}>
-	<div class="stack gap-20 lg:gap-48">
-		<div class="wrapper stack gap-8 lg:gap-20">
+	<div class="stack gap-10 lg:gap-24">
+		<div class="wrapper stack gap-8 lg:gap-10">
 			<header class="hero">
 				<Hero
 					title={t('home.hero.title')}
@@ -137,7 +137,7 @@ const projects = (await getCollection('work'))
 		left: 50%;
 		width: 100vw;
 		aspect-ratio: calc(2.25 / var(--bg-scale));
-		top: 0;
+		top: -5rem;
 		transform: translateY(-75%) translateX(-50%);
 		background:
 			url('/assets/backgrounds/noise.png') top center/220px repeat,
