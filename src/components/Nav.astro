@@ -13,12 +13,9 @@ const workSlug = isWorkPage ? Astro.url.pathname.split('/work/')[1] : null;
 
 /** Icon links to social media — edit these with links to your profiles! */
 const iconLinks: { label: string; href: string; icon: keyof typeof iconPaths }[] = [
-	{ label: t('nav.twitter'), href: 'https://twitter.com/me', icon: 'twitter-logo' },
-	{ label: t('nav.twitch'), href: 'https://twitch.tv/me', icon: 'twitch-logo' },
-	{ label: t('nav.github'), href: 'https://github.com/me', icon: 'github-logo' },
-	{ label: t('nav.codepen'), href: 'https://codepen.io/me', icon: 'codepen-logo' },
-	{ label: t('nav.dribbble'), href: 'https://dribbble.com/me', icon: 'dribbble-logo' },
-	{ label: t('nav.youtube'), href: 'https://www.youtube.com/@me/', icon: 'youtube-logo' },
+	{ label: 'LinkedIn', href: 'https://www.linkedin.com/in/lilian-cartellier-0aba93333/', icon: 'linkedin-logo' },
+	{ label: 'GitHub', href: 'https://github.com/LilianCartellier', icon: 'github-logo' },
+	{ label: 'Itch.io', href: 'https://lilian-cartellier.itch.io/', icon: 'itch-io-logo' },
 ];
 ---
 
@@ -26,16 +23,9 @@ const iconLinks: { label: string; href: string; icon: keyof typeof iconPaths }[]
 	<div class="menu-header">
 		<a href={translatePath('/')} class="site-title">
 			<Icon icon="terminal-window" color="var(--accent-regular)" size="1.6em" gradient />
-			Jeanine White
+			Lilian Cartellier
 		</a>
-		<menu-button>
-			<template>
-				<button class="menu-button" aria-expanded="false">
-					<span class="sr-only">{t('nav.menu')}</span>
-					<Icon icon="list" />
-				</button>
-			</template>
-		</menu-button>
+
 	</div>
 	<div class="menu-footer">
 		<div class="socials">

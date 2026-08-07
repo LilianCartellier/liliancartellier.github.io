@@ -24,7 +24,7 @@ const projects = (await getCollection('work'))
 	.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
 ---
 
-<BaseLayout title={t('home.hero.title') + ' | ' + t('footer.name')} description={t('home.hero.tagline')}>
+<BaseLayout title={t('home.hero.title')} description={t('home.hero.tagline')}>
 	<div class="stack gap-10 lg:gap-24">
 		<div class="wrapper stack gap-8 lg:gap-10">
 			<header class="hero">
@@ -34,9 +34,9 @@ const projects = (await getCollection('work'))
 					align="start"
 				>
 					<div class="roles">
-						<Pill><Icon icon="code" size="1.33em" /> {t('home.hero.roles.dev')}</Pill>
-						<Pill><Icon icon="microphone-stage" size="1.33em" /> {t('home.hero.roles.designer')}</Pill>
-						<Pill><Icon icon="pencil-line" size="1.33em" /> {t('home.hero.roles.writer')}</Pill>
+						<Pill>{t('home.hero.roles.unreal')}</Pill>
+						<Pill>{t('home.hero.roles.unity')}</Pill>
+						<Pill>{t('home.hero.roles.custom')}</Pill>
 					</div>
 				</Hero>
 
