@@ -21,7 +21,7 @@ const translatePath = useTranslatedPath(lang as keyof typeof languages);
 // Content Fetching: List all work projects, sorted by order (if present) or publishDate
 const projects = (await getCollection('work'))
 	.filter((entry) => entry.id.startsWith(`${lang}/`))
-	.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+	.sort((a, b) => (b.data.order || 0) - (a.data.order || 0));
 ---
 
 <BaseLayout title={t('home.hero.title')} description={t('home.hero.tagline')}>
