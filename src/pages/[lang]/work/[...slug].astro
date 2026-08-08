@@ -36,6 +36,27 @@ const translatePath = useTranslatedPath(lang as keyof typeof languages);
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+
+function getYouTubeEmbedUrl(urlStr: string) {
+	try {
+		const url = new URL(urlStr);
+		let videoId = '';
+		if (url.hostname.includes('youtube.com')) {
+			videoId = url.searchParams.get('v') || '';
+			if (!videoId && url.pathname.startsWith('/embed/')) {
+				videoId = url.pathname.split('/')[2];
+			}
+		} else if (url.hostname.includes('youtu.be')) {
+			videoId = url.pathname.slice(1);
+		}
+		if (videoId) {
+			return `https://www.youtube.com/embed/${videoId}`;
+		}
+	} catch (e) {
+		// Fallback
+	}
+	return urlStr;
+}
 ---
 
 <BaseLayout title={entry.data.title} description={entry.data.description}>
@@ -51,14 +72,25 @@ const { Content } = await render(entry);
 							<div class="tags">
 								{entry.data.tags.map((t) => <Pill>{t}</Pill>)}
 							</div>
-							<p class="description">{entry.data.description}</p>
+							<p class="description" set:html={entry.data.description}></p>
 						</div>
 					</Hero>
 				</div>
 			</header>
 			<main class="wrapper">
 				<div class="stack gap-10 content">
-					{entry.data.img && <img src={entry.data.img} alt={entry.data.img_alt || ''} />}
+					{entry.data.link ? (
+						<div class="video-container">
+							<iframe
+								src={getYouTubeEmbedUrl(entry.data.link)}
+								title={entry.data.title}
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+								allowfullscreen
+							></iframe>
+						</div>
+					) : (
+						entry.data.img && <img src={entry.data.img} alt={entry.data.img_alt || ''} />
+					)}
 					<div class="content">
 						<Content />
 					</div>
@@ -115,11 +147,28 @@ const { Content } = await render(entry);
 		margin: 1.5rem 0;
 	}
 
-	.content :global(img) {
+	.content :global(img),
+	.video-container {
 		border-radius: 1.5rem;
 		box-shadow: var(--shadow-sm);
 		background: var(--gradient-subtle);
 		border: 1px solid var(--gray-800);
+		overflow: hidden;
+	}
+
+	.video-container {
+		position: relative;
+		width: 100%;
+		aspect-ratio: 16 / 9;
+	}
+
+	.video-container iframe {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		border: 0;
 	}
 
 	.content :global(blockquote) {
@@ -133,7 +182,8 @@ const { Content } = await render(entry);
 	}
 
 	.back-link,
-	.content :global(a) {
+	.content :global(a),
+	.description :global(a) {
 		text-decoration: 1px solid underline transparent;
 		text-underline-offset: 0.25em;
 		transition: text-decoration-color var(--theme-transition);
@@ -142,7 +192,9 @@ const { Content } = await render(entry);
 	.back-link:hover,
 	.back-link:focus,
 	.content :global(a:hover),
-	.content :global(a:focus) {
+	.content :global(a:focus),
+	.description :global(a:hover),
+	.description :global(a:focus) {
 		text-decoration-color: currentColor;
 	}
 

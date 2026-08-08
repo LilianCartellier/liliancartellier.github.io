@@ -38,6 +38,12 @@ const projects = (await getCollection('work'))
 						<Pill>{t('home.hero.roles.unity')}</Pill>
 						<Pill>{t('home.hero.roles.custom')}</Pill>
 					</div>
+					<div class="cv-container">
+						<a class="cv-link" href={lang === 'en' ? '/assets/cv-en.pdf' : '/assets/cv-fr.pdf'} download>
+							<Icon icon="file-text" size="1.2em" />
+							{t('home.hero.cv')}
+						</a>
+					</div>
 				</Hero>
 
 				<img
