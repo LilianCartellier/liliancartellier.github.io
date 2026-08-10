@@ -3,9 +3,12 @@ title: Win Thar War!
 order: 2
 img: /assets/WinThatWar.jpg
 description: |
-  Win That War fr
+  Jeu de stratégie temps réel dans un univers rétrofuturiste, développé par Insane Unity
+link: https://www.youtube.com/watch?v=2-gPy9r7h_s
 tags:
-  - Custom engine
+  - C#
+  - Node.js
+  - Moteur propriétaire
 ---
 
-Win that war fr
+Win that War! était un projet de jeu de stratégie en temps réel massivement multijoueur. Les serveurs ne sont malheureusement plus actifs aujourd'hui, mais un cours mode solo reste disponible. Mon travail sur ce projet a été de créer différents outils, et notamment un éditeur de scénarios permettant le placement d'ennemis, la gestion de caméras, et le scripting d'objectifs et d'événements. Cet éditeur a été utilisé pour réaliser le contenu solo du jeu, ainsi que les différents trailers.

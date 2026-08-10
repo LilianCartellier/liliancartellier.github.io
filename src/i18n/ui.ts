@@ -14,7 +14,7 @@ export const ui = {
     'home.hero.title': 'Lilian Cartellier',
     'home.hero.roles.unreal': 'Unreal Engine',
     'home.hero.roles.unity': 'Unity',
-    'home.hero.roles.custom': 'Moteurs maison',
+    'home.hero.roles.custom': 'Moteurs propriétaires',
     'home.hero.cv': 'Télécharger mon CV',
     'home.work.header.title': 'Mes Projets',
     'home.work.header.subtitle': 'Découvrez une partie de mes projets ci-dessous',
