@@ -1,5 +1,5 @@
 ---
-title: Win Thar War!
+title: Win That War!
 order: 2
 img: /assets/WinThatWar.jpg
 description: |
@@ -11,4 +11,4 @@ tags:
   - Custom engine
 ---
 
-Win That War! was meant as a massively multiplayer, real-time strategy game. Servers are now offline, but a short solo mode is still available. The main focus of my work on this project was to create tools, such as a scenario editor for placing enemies, managing cameras, and scripting objectives and events. This tool was used to create the solo content of the game, as well as the various trailers.
+Win That War! was originally designed as a massively multiplayer real-time strategy game. The servers are now offline, but a short solo mode is still available. My primary focus was creating internal production tools, such as a scenario editor for placing enemies, managing cameras, and scripting objectives and events. This tool was used to create the solo content of the game, as well as the game's trailers.

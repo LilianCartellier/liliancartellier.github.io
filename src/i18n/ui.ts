@@ -9,7 +9,7 @@ export const ui = {
   fr: {
     'nav.work': 'Mes Projets',
     'cta.title': 'Envie de travailler ensemble?',
-    'cta.button': 'Ecrivez-moi',
+    'cta.button': 'Écrivez-moi',
     'home.hero.tagline': 'Programmeur gameplay',
     'home.hero.title': 'Lilian Cartellier',
     'home.hero.roles.unreal': 'Unreal Engine',
@@ -17,7 +17,8 @@ export const ui = {
     'home.hero.roles.custom': 'Moteurs propriétaires',
     'home.hero.cv': 'Télécharger mon CV',
     'home.work.header.title': 'Mes Projets',
-    'home.work.header.subtitle': 'Découvrez une partie de mes projets ci-dessous',
+    'home.work.header.subtitle': 'Découvrez une sélection de mes réalisations professionnelles et personnelles en programmation de jeux vidéo.',
+    'projects.filter.all': 'Tous',
   },
   en: {
     'nav.work': 'My Work',
@@ -30,6 +31,7 @@ export const ui = {
     'home.hero.roles.custom': 'Custom engines',
     'home.hero.cv': 'Download my CV',
     'home.work.header.title': 'My Work',
-    'home.work.header.subtitle': 'Explore a few of my projects',
+    'home.work.header.subtitle': 'Explore a selection of my professional and personal video game programming projects.',
+    'projects.filter.all': 'All',
   },
 } as const;

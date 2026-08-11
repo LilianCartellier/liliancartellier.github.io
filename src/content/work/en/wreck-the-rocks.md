@@ -10,4 +10,4 @@ tags:
   - C#
 ---
 
-Made during GTMK 2024 in 4 days, with the theme "Built to Scale", Wreck The Rocks! lets you build and pilot your own ship as you face increasingly dangerous threats. The ship editor features complex placement rules, as well as a block removal system that ensures removing a block does not violate those rules. All operations can also be undone and redone at any time.
+Developed in 4 days during GMTK Jam 2024, with the theme "Built to Scale", Wreck The Rocks! lets you build and pilot your own ship as you face increasingly dangerous threats. The ship editor features complex placement rules, a block removal system ensuring structural integrity, and a full undo/redo system for all actions.

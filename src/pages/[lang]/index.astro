@@ -18,10 +18,13 @@ const { lang = defaultLang } = Astro.params;
 const t = useTranslations(lang as keyof typeof languages);
 const translatePath = useTranslatedPath(lang as keyof typeof languages);
 
-// Content Fetching: List all work projects, sorted by order (if present) or publishDate
+// Content Fetching: List all work projects, sorted by order (if present)
 const projects = (await getCollection('work'))
 	.filter((entry) => entry.id.startsWith(`${lang}/`))
 	.sort((a, b) => (b.data.order || 0) - (a.data.order || 0));
+
+// Extract unique tags for filtering
+const allTags = Array.from(new Set(projects.flatMap((project) => project.data.tags || [])));
 ---
 
 <BaseLayout title={t('home.hero.title')} description={t('home.hero.tagline')}>
@@ -39,7 +42,7 @@ const projects = (await getCollection('work'))
 						<Pill>{t('home.hero.roles.custom')}</Pill>
 					</div>
 					<div class="cv-container">
-						<a class="cv-link" href={lang === 'en' ? '/assets/cv-en.pdf' : '/assets/cv-fr.pdf'} download>
+						<a class="cv-link" href={lang === 'en' ? '/assets/CV_Lilian_Cartellier_Gameplay_Programmer.pdf' : '/assets/CV_Lilian_Cartellier_Programmeur_Gameplay.pdf'} download>
 							<Icon icon="file-text" size="1.2em" />
 							{t('home.hero.cv')}
 						</a>
@@ -47,13 +50,12 @@ const projects = (await getCollection('work'))
 				</Hero>
 
 				<img
-					alt="Jeanine White smiling in a red plaid shirt and tortoise shell glasses"
+					alt="Lilian Cartellier - Gameplay Programmer"
 					width="480"
 					height="620"
 					src="/assets/portrait.jpg"
 				/>
 			</header>
-
 		</div>
 
 		<main class="wrapper stack gap-20 lg:gap-48">
@@ -63,24 +65,60 @@ const projects = (await getCollection('work'))
 					<p>{t('home.work.header.subtitle')}</p>
 				</header>
 
+				<!-- Tag Filters -->
+				<div class="filters-container">
+					<button class="filter-btn active" data-filter="all">{t('projects.filter.all')}</button>
+					{allTags.map((tag) => (
+						<button class="filter-btn" data-filter={tag}>{tag}</button>
+					))}
+				</div>
+
 				<div class="gallery">
 					<Grid variant="offset">
 						{
 							projects.map((project) => (
-								<li>
+								<li data-tags={JSON.stringify(project.data.tags || [])}>
 									<PortfolioPreview project={project} />
 								</li>
 							))
 						}
 					</Grid>
 				</div>
-
 			</section>
 		</main>
 
 		<ContactCTA />
 	</div>
 </BaseLayout>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const filterButtons = document.querySelectorAll('.filter-btn');
+		const projectItems = document.querySelectorAll('.gallery li');
+
+		filterButtons.forEach((button) => {
+			button.addEventListener('click', () => {
+				// Update active button state
+				filterButtons.forEach((btn) => btn.classList.remove('active'));
+				button.classList.add('active');
+
+				const filter = button.getAttribute('data-filter');
+
+				projectItems.forEach((item) => {
+					const tagsAttr = item.getAttribute('data-tags');
+					if (!tagsAttr) return;
+					const tags = JSON.parse(tagsAttr);
+
+					if (filter === 'all' || tags.includes(filter)) {
+						(item as HTMLElement).style.display = '';
+					} else {
+						(item as HTMLElement).style.display = 'none';
+					}
+				});
+			});
+		});
+	});
+</script>
 
 <style>
 	.hero {
@@ -102,6 +140,66 @@ const projects = (await getCollection('work'))
 		box-shadow: var(--shadow-md);
 	}
 
+	.cv-container {
+		margin-top: 1rem;
+	}
+
+	.cv-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.75rem 1.5rem;
+		border: 1px solid var(--accent-regular);
+		border-radius: 999rem;
+		color: var(--accent-regular);
+		font-family: var(--font-brand);
+		font-size: var(--text-sm);
+		text-decoration: none;
+		background: var(--gradient-subtle);
+		box-shadow: var(--shadow-sm);
+		transition: background var(--theme-transition), color var(--theme-transition), border-color var(--theme-transition);
+	}
+
+	.cv-link:hover {
+		background: var(--accent-regular);
+		color: var(--gray-999);
+		border-color: var(--accent-regular);
+	}
+
+	/* Filters Styling */
+	.filters-container {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		justify-content: center;
+		grid-area: header; /* or placed appropriately */
+		margin-bottom: 1rem;
+	}
+
+	.filter-btn {
+		padding: 0.5rem 1.25rem;
+		border-radius: 999rem;
+		border: 1px solid var(--gray-800);
+		background: var(--gray-900);
+		color: var(--gray-300);
+		font-family: var(--font-brand);
+		font-size: var(--text-sm);
+		cursor: pointer;
+		transition: all var(--theme-transition);
+	}
+
+	.filter-btn:hover {
+		border-color: var(--accent-regular);
+		color: var(--gray-100);
+	}
+
+	.filter-btn.active {
+		background: var(--accent-regular);
+		color: var(--gray-999);
+		border-color: var(--accent-regular);
+		box-shadow: var(--shadow-sm);
+	}
+
 	@media (min-width: 50em) {
 		.hero {
 			display: grid;
@@ -120,6 +218,10 @@ const projects = (await getCollection('work'))
 			aspect-ratio: 3 / 4;
 			border-radius: 4.5rem;
 			object-fit: cover;
+		}
+
+		.filters-container {
+			justify-content: flex-start;
 		}
 	}
 
@@ -173,12 +275,12 @@ const projects = (await getCollection('work'))
 	@media (min-width: 50em) {
 		.section {
 			grid-template-columns: repeat(4, 1fr);
-			grid-template-areas: 'header header header header' 'gallery gallery gallery gallery';
-			gap: 5rem;
+			grid-template-areas: 'header header header header' 'filters filters filters filters' 'gallery gallery gallery gallery';
+			gap: 3rem;
 		}
 
 		.section.with-cta {
-			grid-template-areas: 'header header header cta' 'gallery gallery gallery gallery';
+			grid-template-areas: 'header header header cta' 'filters filters filters filters' 'gallery gallery gallery gallery';
 		}
 
 		.section-header {
@@ -187,7 +289,13 @@ const projects = (await getCollection('work'))
 		}
 
 		.section-header h3 {
+			grid-area: header;
 			font-size: var(--text-4xl);
+		}
+
+		.filters-container {
+			grid-area: filters;
+			margin-top: -1rem;
 		}
 
 		.with-cta .section-header {
@@ -201,28 +309,6 @@ const projects = (await getCollection('work'))
 
 		.cta {
 			grid-area: cta;
-		}
-	}
-
-	/* ====================================================== */
-
-	.mention-card {
-		display: flex;
-		height: 7rem;
-		justify-content: center;
-		align-items: center;
-		text-align: center;
-		border: 1px solid var(--gray-800);
-		border-radius: 1.5rem;
-		color: var(--gray-300);
-		background: var(--gradient-subtle);
-		box-shadow: var(--shadow-sm);
-	}
-
-	@media (min-width: 50em) {
-		.mention-card {
-			border-radius: 1.5rem;
-			height: 9.5rem;
 		}
 	}
 </style>
